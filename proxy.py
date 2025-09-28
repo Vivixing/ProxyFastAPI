@@ -1,7 +1,19 @@
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, Response
 import httpx
 
 app = FastAPI()
+
+origins = ["https://outfitforyou.onrender.com"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Dirección backend HTTP Servidor Remoto
 BACKEND_URL = "http://93.127.213.95:8035"
@@ -17,5 +29,6 @@ async def proxy(request: Request, path: str):
 
     async with httpx.AsyncClient() as client:
         response = await client.request(method, url, headers=headers, content=body)
-
-    return response.text
+    
+    print("Respuesta proxy:", response.text)
+    return Response(content=response.content, status_code=response.status_code, headers=dict(response.headers))
