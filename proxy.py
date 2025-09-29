@@ -27,7 +27,7 @@ async def proxy(request: Request, path: str):
     headers = dict(request.headers)
     body = await request.body()
 
-    async with httpx.AsyncClient(timeout=95.0) as client:
+    async with httpx.AsyncClient(timeout=None) as client:
         response = await client.request(method, url, headers=headers, content=body)
     
     print("Respuesta proxy:", response.text)
