@@ -16,7 +16,8 @@ app.add_middleware(
 )
 
 # Dirección backend HTTP Servidor Remoto
-BACKEND_URL = "http://93.127.213.95:8035"
+BACKEND_URL = "http://localhost:8000"
+#"http://93.127.213.95:8035"
 
 @app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 async def proxy(request: Request, path: str):
